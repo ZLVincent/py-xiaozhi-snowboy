@@ -11,7 +11,7 @@ import socket
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from os import urandom
-from common import logging
+from common import logging, utils
 import os
 import wave
 
@@ -284,4 +284,5 @@ def stopRun():
     # mqtt
     mqttc.disconnect()
     mqttc.loop_stop()
+    utils.setRecordable(True)
     logger.info("xiaozhi stoped")

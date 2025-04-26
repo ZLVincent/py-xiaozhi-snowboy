@@ -43,13 +43,13 @@ class XiaoZhiAI(object):
         signal.signal(signal.SIGINT, self._signal_handler)
         try:
             # 初始化离线唤醒
-            #detector.initDetector(self)
+            detector.initDetector(self)
 
-            xiaozhi.run()
-            print("222")
-            time.sleep(2)
-            xiaozhi.StartListen()
-            self.startL()
+            # xiaozhi.run()
+            # print("222")
+            # time.sleep(2)
+            # xiaozhi.StartListen()
+            # self.startL()
         except Exception as e:
             logger.error(f"初始化离线唤醒功能失败: {e}", stack_info=True)
             pass
@@ -57,9 +57,9 @@ class XiaoZhiAI(object):
 if __name__ == "__main__":
     xiaozhiAI = XiaoZhiAI()
     xiaozhiAI.run()
-    try:
-        print("程序启动，按 Ctrl+C 停止")
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print("\n已捕获 Ctrl+C，正在退出程序")
+    # try:
+    #     print("程序启动，按 Ctrl+C 停止")
+    #     while True:
+    #         time.sleep(1)
+    # except KeyboardInterrupt:
+    #     print("\n已捕获 Ctrl+C，正在退出程序")

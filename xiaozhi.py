@@ -274,6 +274,7 @@ def run():
     sayHello()
 
 def stopRun():
+    global stop_event, udp_socket, mqttc
     # 通知线程停止
     stop_event.set()
     # 等待线程退出
@@ -281,8 +282,11 @@ def stopRun():
     # socket
     udp_socket.shutdown(socket.SHUT_RDWR)
     udp_socket.close()
+    udp_socket = None
+    udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     # mqtt
     mqttc.disconnect()
     mqttc.loop_stop()
+    mqttc = None
     utils.setRecordable(True)
     logger.info("xiaozhi stoped")

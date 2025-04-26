@@ -114,23 +114,29 @@ def send_audio(audio_stream=None):
     server_ip = aes_opus_info['udp']['server']
     server_port = aes_opus_info['udp']['port']
     logger.info(f"{server_ip} : {server_port}")
+    FRAME_SIZE = 960  # 采样点数
+    BYTES_PER_FRAME = FRAME_SIZE * 2  # 单声道 16-bit PCM，所以乘2
     # 初始化Opus编码器
     encoder = opuslib.Encoder(16000, 1, opuslib.APPLICATION_AUDIO)
     try:
-        # 编码音频数据
-        frame_size = len(audio_stream) // 2
-        logger.info(frame_size)
-        encoded_data = encoder.encode(audio_stream, frame_size)
-        # 打印音频数据
-        # print(f"Encoded data: {len(encoded_data)}")
-        # nonce插入data.size local_sequence_
-        local_sequence += 1
-        new_nonce = nonce[0:4] + format(len(encoded_data), '04x') + nonce[8:24] + format(local_sequence, '08x')
-        # 加密数据，添加nonce
-        encrypt_encoded_data = aes_ctr_encrypt(bytes.fromhex(key), bytes.fromhex(new_nonce), bytes(encoded_data))
-        data = bytes.fromhex(new_nonce) + encrypt_encoded_data
-        sent = udp_socket.sendto(data, (server_ip, server_port))
-        logger.info(sent)
+        for i in range(0, len(audio_stream), BYTES_PER_FRAME):
+            chunk = audio_stream[i:i+BYTES_PER_FRAME]
+            if len(chunk) == BYTES_PER_FRAME:  # 确保够一帧，不够可以丢掉或缓存
+                # 编码音频数据
+                encoded_data = encoder.encode(audio_stream, FRAME_SIZE)
+                # 打印音频数据
+                # print(f"Encoded data: {len(encoded_data)}")
+                # nonce插入data.size local_sequence_
+                local_sequence += 1
+                new_nonce = nonce[0:4] + format(len(encoded_data), '04x') + nonce[8:24] + format(local_sequence, '08x')
+                # 加密数据，添加nonce
+                encrypt_encoded_data = aes_ctr_encrypt(bytes.fromhex(key), bytes.fromhex(new_nonce), bytes(encoded_data))
+                data = bytes.fromhex(new_nonce) + encrypt_encoded_data
+                sent = udp_socket.sendto(data, (server_ip, server_port))
+                logger.info(sent)
+            else:
+                logger.info("最后一块数据太小，丢弃或者缓存下次用")
+        
         EndListen()
     except Exception as e:
         logger.critical(f"send audio err: {e}")

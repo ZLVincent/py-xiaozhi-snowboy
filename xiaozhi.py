@@ -161,6 +161,7 @@ def recv_audio():
                                            split_encrypt_encoded_data)
             # 解码播放音频数据
             spk.write(decoder.decode(decrypt_data, frame_num))
+        logger.info("recv_audio task exit")
     # except BlockingIOError:
     #     # 无数据时短暂休眠以减少CPU占用
     #     time.sleep(0.1)
@@ -276,7 +277,7 @@ def stopRun():
     # 通知线程停止
     stop_event.set()
     # 等待线程退出
-    recv_audio_thread.join()
+    #recv_audio_thread.join()
     # socket
     udp_socket.shutdown(socket.SHUT_RDWR)
     udp_socket.close()

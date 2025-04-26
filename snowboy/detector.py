@@ -31,7 +31,7 @@ def initDetector(XiaoZhiAI):
     except Exception as e:
         logger.critical(f"离线唤醒机制初始化失败：{e}", stack_info=True)
 
-def _detected_callback(self):
+def _detected_callback():
     if not utils.is_proper_time():
         logger.warning("勿扰模式开启中")
         return
@@ -39,7 +39,7 @@ def _detected_callback(self):
     xiaozhi.run()
     utils.setRecordable(True)
 
-def _audio_recorder_callback(self, audio_stream=None):
+def _audio_recorder_callback(audio_stream=None):
     logger.info("结束录音")
     utils.setRecordable(False)
     xiaozhi.send_audio(audio_stream)

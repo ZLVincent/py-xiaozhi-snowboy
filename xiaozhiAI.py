@@ -57,9 +57,3 @@ class XiaoZhiAI(object):
 if __name__ == "__main__":
     xiaozhiAI = XiaoZhiAI()
     xiaozhiAI.run()
-    # try:
-    #     print("程序启动，按 Ctrl+C 停止")
-    #     while True:
-    #         time.sleep(1)
-    # except KeyboardInterrupt:
-    #     print("\n已捕获 Ctrl+C，正在退出程序")

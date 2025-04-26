@@ -119,6 +119,7 @@ def send_audio(audio_stream=None):
     try:
         # 编码音频数据
         frame_size = len(audio_stream) // 2
+        logger.info(frame_size)
         encoded_data = encoder.encode(audio_stream, frame_size)
         # 打印音频数据
         # print(f"Encoded data: {len(encoded_data)}")

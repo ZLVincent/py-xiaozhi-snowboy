@@ -59,7 +59,7 @@ udp_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 conn_state = False
 recv_audio_thread = threading.Thread()
 # 创建停止标志
-stop_event = threading.Event()
+stop_event = None
 mqttc = None
 
 TOP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -270,7 +270,8 @@ def EndListen():
     logger.info(f"send stop listen message: {msg}")
 
 def run():
-    global mqtt_info, mqttc, audio
+    global mqtt_info, mqttc, audio, stop_event
+    stop_event = threading.Event()
     audio = pyaudio.PyAudio()
     # 获取mqtt与版本信息
     get_ota_version()
@@ -290,6 +291,7 @@ def stopRun():
     global stop_event, udp_socket, mqttc
     # 通知线程停止
     stop_event.set()
+    stop_event = None
     # 等待线程退出
     #recv_audio_thread.join()
     # socket

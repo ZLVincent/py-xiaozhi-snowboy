@@ -118,7 +118,7 @@ def send_audio(audio_stream=None):
     encoder = opuslib.Encoder(16000, 1, opuslib.APPLICATION_AUDIO)
     try:
         # 编码音频数据
-        encoded_data = encoder.encode(audio_stream, 960)
+        encoded_data = encoder.encode(audio_stream, 2048)
         # 打印音频数据
         # print(f"Encoded data: {len(encoded_data)}")
         # nonce插入data.size local_sequence_
@@ -168,7 +168,6 @@ def recv_audio():
     except Exception as e:
         logger.critical(f"recv audio err: {e}")
     finally:
-        udp_socket = None
         spk.stop_stream()
         spk.close()
 

@@ -40,6 +40,8 @@ def _detected_callback():
     utils.setRecordable(True)
 
 def _audio_recorder_callback(audio_stream=None):
+    if len(audio_stream) < (960 * 2):
+        return
     logger.info("结束录音")
     utils.setRecordable(False)
     xiaozhi.send_audio(audio_stream)

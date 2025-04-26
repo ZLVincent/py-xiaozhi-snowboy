@@ -113,7 +113,6 @@ def send_audio(audio_stream=None):
     nonce = aes_opus_info['udp']['nonce']
     server_ip = aes_opus_info['udp']['server']
     server_port = aes_opus_info['udp']['port']
-    logger.info(f"{server_ip} : {server_port}")
     FRAME_SIZE = 960  # 采样点数
     BYTES_PER_FRAME = FRAME_SIZE * 2  # 单声道 16-bit PCM，所以乘2
     # 初始化Opus编码器
@@ -133,7 +132,6 @@ def send_audio(audio_stream=None):
                 encrypt_encoded_data = aes_ctr_encrypt(bytes.fromhex(key), bytes.fromhex(new_nonce), bytes(encoded_data))
                 data = bytes.fromhex(new_nonce) + encrypt_encoded_data
                 sent = udp_socket.sendto(data, (server_ip, server_port))
-                logger.info(sent)
             else:
                 logger.info("最后一块数据太小，丢弃或者缓存下次用")
         
@@ -155,7 +153,7 @@ def recv_audio():
         spk = audio.open(format=pyaudio.paInt16, channels=1, rate=sample_rate, output=True, frames_per_buffer=frame_num)
         while not stop_event.is_set():
             data, server = udp_socket.recvfrom(4096)
-            logger.info(f"Received from server {server}: {len(data)}")
+            #logger.info(f"Received from server {server}: {len(data)}")
             if len(data) == 0:
                 continue
             encrypt_encoded_data = data
@@ -183,10 +181,10 @@ def on_message(client, userdata, message):
     global aes_opus_info, udp_socket, tts_state, recv_audio_thread
     msg = json.loads(message.payload)
     logger.info(f"recv msg: {msg}")
-    if udp_socket:
-        logger.info("udp_socket exit")
-    if aes_opus_info:
-        logger.info(aes_opus_info['session_id'])
+    # if udp_socket:
+    #     logger.info("udp_socket exit")
+    # if aes_opus_info:
+    #     logger.info(aes_opus_info['session_id'])
     if msg['type'] == 'hello':
         aes_opus_info = msg
         udp_socket.connect((msg['udp']['server'], msg['udp']['port']))

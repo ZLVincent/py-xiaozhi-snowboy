@@ -227,6 +227,9 @@ class HotwordDetector(object):
                 if stopRecording == True:
                     data = b"".join(self.recordedData)
                     audio_recorder_callback(audio_stream=data)
+                    self.recordedData = []
+                    silentCount = 0
+                    recordingCount = 0
                     continue
 
                 recordingCount = recordingCount + 1

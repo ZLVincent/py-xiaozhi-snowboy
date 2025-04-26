@@ -1,0 +1,50 @@
+2025-04-25 17:29:15,221 - __main__ - xiaozhiAI.py - run - line 52 - ERROR - 初始化离线唤醒功能失败
+Stack (most recent call last):
+  File "D:\My\git\XiaoZhi\py-xiaozhi\xiaozhiAI.py", line 57, in <module>
+    xiaozhiAI.run()
+  File "D:\My\git\XiaoZhi\py-xiaozhi\xiaozhiAI.py", line 52, in run
+    logger.error("初始化离线唤醒功能失败", stack_info=True)
+2025-04-25 17:31:19,402 - __main__ - xiaozhiAI.py - run - line 52 - ERROR - 初始化离线唤醒功能失败: 'XiaoZhiAI' object has no attribute 'startL'
+Stack (most recent call last):
+  File "D:\My\git\XiaoZhi\py-xiaozhi\xiaozhiAI.py", line 57, in <module>
+    xiaozhiAI.run()
+  File "D:\My\git\XiaoZhi\py-xiaozhi\xiaozhiAI.py", line 52, in run
+    logger.error(f"初始化离线唤醒功能失败: {e}", stack_info=True)
+2025-04-25 18:18:10,339 - xiaozhi - xiaozhi.py - get_ota_version - line 96 - INFO - {"mqtt":{"endpoint":"mqtt.xiaozhi.me","client_id":"GID_test@@@cd_68_f8_8d_b8_ba@@@undefined","username":"eyJpcCI6IjU4LjI0Ni4xMjIuMzAifQ==","password":"pXx9YoSNDsGXASzbGjmMnZAM95goqfCDQdqkk0hk7j8=","publish_topic":"device-server","subscribe_topic":"null"},"server_time":{"timestamp":1745576290267,"timezone_offset":480},"firmware":{"version":"1.6.0","url":"https://xiaozhi-voice-assistant.oss-cn-shenzhen.aliyuncs.com/firmwares/v1.6.0_bread-compact-wifi/xiaozhi.bin"},"activation":{"code":"692501","message":"xiaozhi.me\n692501","challenge":"c62b9714-d7a1-43fe-afe9-a9a0bb89f475"}}
+2025-04-25 18:18:10,340 - xiaozhi - xiaozhi.py - get_ota_version - line 97 - INFO - get version: <Response [200]>
+2025-04-25 18:18:10,480 - xiaozhi - xiaozhi.py - sayHello - line 249 - INFO - send hello message: {'type': 'hello', 'version': 3, 'transport': 'udp', 'audio_params': {'format': 'opus', 'sample_rate': 16000, 'channels': 1, 'frame_duration': 60}}
+2025-04-25 18:18:10,510 - xiaozhi - xiaozhi.py - on_connect - line 214 - INFO - connect to mqtt server
+2025-04-25 18:18:10,575 - xiaozhi - xiaozhi.py - on_message - line 180 - INFO - recv msg: {'type': 'hello', 'version': 3, 'session_id': 'f0a09347', 'transport': 'udp', 'udp': {'server': '120.24.160.13', 'port': 8844, 'encryption': 'aes-128-ctr', 'key': '9d43daf2a696223236f52885cefa2b39', 'nonce': '01000000cd68f88db8bab6e500000000'}, 'audio_params': {'format': 'opus', 'sample_rate': 24000, 'channels': 1, 'frame_duration': 60}}
+2025-04-25 18:18:10,576 - xiaozhi - xiaozhi.py - recv_audio - line 144 - INFO - recv audio: sample_rate -> 24000, frame_duration -> 60, frame_num -> 1440
+2025-04-25 18:18:13,255 - xiaozhi - xiaozhi.py - StartListen - line 256 - INFO - send start listen message: {'session_id': 'f0a09347', 'type': 'listen', 'state': 'start', 'mode': 'manual'}
+2025-04-25 18:18:16,290 - xiaozhi - xiaozhi.py - EndListen - line 262 - INFO - send stop listen message: {'session_id': 'f0a09347', 'type': 'listen', 'state': 'stop'}
+2025-04-25 18:19:22,660 - xiaozhi - xiaozhi.py - on_message - line 180 - INFO - recv msg: {'type': 'goodbye', 'session_id': 'f0a09347'}
+2025-04-25 18:19:33,561 - xiaozhi - xiaozhi.py - get_ota_version - line 96 - INFO - {"mqtt":{"endpoint":"mqtt.xiaozhi.me","client_id":"GID_test@@@cd_68_f8_8d_b8_ba@@@undefined","username":"eyJpcCI6IjU4LjI0Ni4xMjIuMzAifQ==","password":"pXx9YoSNDsGXASzbGjmMnZAM95goqfCDQdqkk0hk7j8=","publish_topic":"device-server","subscribe_topic":"null"},"server_time":{"timestamp":1745576373530,"timezone_offset":480},"firmware":{"version":"1.6.0","url":"https://xiaozhi-voice-assistant.oss-cn-shenzhen.aliyuncs.com/firmwares/v1.6.0_bread-compact-wifi/xiaozhi.bin"}}
+2025-04-25 18:19:33,562 - xiaozhi - xiaozhi.py - get_ota_version - line 97 - INFO - get version: <Response [200]>
+2025-04-25 18:19:33,688 - xiaozhi - xiaozhi.py - sayHello - line 249 - INFO - send hello message: {'type': 'hello', 'version': 3, 'transport': 'udp', 'audio_params': {'format': 'opus', 'sample_rate': 16000, 'channels': 1, 'frame_duration': 60}}
+2025-04-25 18:19:33,718 - xiaozhi - xiaozhi.py - on_connect - line 214 - INFO - connect to mqtt server
+2025-04-25 18:19:33,804 - xiaozhi - xiaozhi.py - on_message - line 180 - INFO - recv msg: {'type': 'hello', 'version': 3, 'session_id': '292e2659', 'transport': 'udp', 'udp': {'server': '120.24.160.13', 'port': 8846, 'encryption': 'aes-128-ctr', 'key': '61d92c844e495dc122cf203134e9298b', 'nonce': '01000000cd68f88db8baac3e00000000'}, 'audio_params': {'format': 'opus', 'sample_rate': 24000, 'channels': 1, 'frame_duration': 60}}
+2025-04-25 18:19:33,805 - xiaozhi - xiaozhi.py - recv_audio - line 144 - INFO - recv audio: sample_rate -> 24000, frame_duration -> 60, frame_num -> 1440
+2025-04-25 18:19:36,464 - xiaozhi - xiaozhi.py - StartListen - line 256 - INFO - send start listen message: {'session_id': '292e2659', 'type': 'listen', 'state': 'start', 'mode': 'manual'}
+2025-04-25 18:19:39,503 - xiaozhi - xiaozhi.py - EndListen - line 262 - INFO - send stop listen message: {'session_id': '292e2659', 'type': 'listen', 'state': 'stop'}
+2025-04-25 18:20:42,726 - xiaozhi - xiaozhi.py - on_message - line 180 - INFO - recv msg: {'type': 'goodbye', 'session_id': '292e2659'}
+2025-04-25 18:20:49,508 - xiaozhi - xiaozhi.py - on_message - line 206 - INFO - recv good bye msg
+2025-04-25 18:22:56,641 - xiaozhi - xiaozhi.py - get_ota_version - line 96 - INFO - {"mqtt":{"endpoint":"mqtt.xiaozhi.me","client_id":"GID_test@@@cd_68_f8_8d_b8_ba@@@undefined","username":"eyJpcCI6IjU4LjMzLjkxLjEzMCJ9","password":"GDBBvbrynSHVP3FU/yUxlnG8WCnNc5V23Kfa2+AtkXk=","publish_topic":"device-server","subscribe_topic":"null"},"server_time":{"timestamp":1745576576613,"timezone_offset":480},"firmware":{"version":"1.6.0","url":"https://xiaozhi-voice-assistant.oss-cn-shenzhen.aliyuncs.com/firmwares/v1.6.0_bread-compact-wifi/xiaozhi.bin"}}
+2025-04-25 18:22:56,641 - xiaozhi - xiaozhi.py - get_ota_version - line 97 - INFO - get version: <Response [200]>
+2025-04-25 18:22:56,766 - xiaozhi - xiaozhi.py - sayHello - line 249 - INFO - send hello message: {'type': 'hello', 'version': 3, 'transport': 'udp', 'audio_params': {'format': 'opus', 'sample_rate': 16000, 'channels': 1, 'frame_duration': 60}}
+2025-04-25 18:22:56,796 - xiaozhi - xiaozhi.py - on_connect - line 214 - INFO - connect to mqtt server
+2025-04-25 18:22:56,846 - xiaozhi - xiaozhi.py - on_message - line 180 - INFO - recv msg: {'type': 'hello', 'version': 3, 'session_id': '86112a0d', 'transport': 'udp', 'udp': {'server': '120.24.160.13', 'port': 8844, 'encryption': 'aes-128-ctr', 'key': '468269c4a5bb44652c4da1e8984e8030', 'nonce': '01000000cd68f88db8ba91e000000000'}, 'audio_params': {'format': 'opus', 'sample_rate': 24000, 'channels': 1, 'frame_duration': 60}}
+2025-04-25 18:22:56,848 - xiaozhi - xiaozhi.py - recv_audio - line 144 - INFO - recv audio: sample_rate -> 24000, frame_duration -> 60, frame_num -> 1440
+2025-04-25 18:22:59,521 - xiaozhi - xiaozhi.py - StartListen - line 256 - INFO - send start listen message: {'session_id': '86112a0d', 'type': 'listen', 'state': 'start', 'mode': 'manual'}
+2025-04-25 18:23:02,565 - xiaozhi - xiaozhi.py - EndListen - line 262 - INFO - send stop listen message: {'session_id': '86112a0d', 'type': 'listen', 'state': 'stop'}
+2025-04-25 18:24:12,346 - xiaozhi - xiaozhi.py - on_message - line 180 - INFO - recv msg: {'type': 'goodbye', 'session_id': '86112a0d'}
+2025-04-25 18:24:12,347 - xiaozhi - xiaozhi.py - on_message - line 206 - INFO - recv good bye msg
+2025-04-25 18:24:26,817 - xiaozhi - xiaozhi.py - get_ota_version - line 96 - INFO - {"mqtt":{"endpoint":"mqtt.xiaozhi.me","client_id":"GID_test@@@cd_68_f8_8d_b8_ba@@@undefined","username":"eyJpcCI6IjU4LjI0Ni4xMjIuMzAifQ==","password":"pXx9YoSNDsGXASzbGjmMnZAM95goqfCDQdqkk0hk7j8=","publish_topic":"device-server","subscribe_topic":"null"},"server_time":{"timestamp":1745576666783,"timezone_offset":480},"firmware":{"version":"1.6.0","url":"https://xiaozhi-voice-assistant.oss-cn-shenzhen.aliyuncs.com/firmwares/v1.6.0_bread-compact-wifi/xiaozhi.bin"}}
+2025-04-25 18:24:26,817 - xiaozhi - xiaozhi.py - get_ota_version - line 97 - INFO - get version: <Response [200]>
+2025-04-25 18:24:26,976 - xiaozhi - xiaozhi.py - sayHello - line 250 - INFO - send hello message: {'type': 'hello', 'version': 3, 'transport': 'udp', 'audio_params': {'format': 'opus', 'sample_rate': 16000, 'channels': 1, 'frame_duration': 60}}
+2025-04-25 18:24:27,009 - xiaozhi - xiaozhi.py - on_connect - line 215 - INFO - connect to mqtt server
+2025-04-25 18:24:27,064 - xiaozhi - xiaozhi.py - on_message - line 181 - INFO - recv msg: {'type': 'hello', 'version': 3, 'session_id': '4dcb8272', 'transport': 'udp', 'udp': {'server': '120.24.160.13', 'port': 8844, 'encryption': 'aes-128-ctr', 'key': 'a5666bf7fc874cf4dcf1a44c4ffd9599', 'nonce': '01000000cd68f88db8ba5a9500000000'}, 'audio_params': {'format': 'opus', 'sample_rate': 24000, 'channels': 1, 'frame_duration': 60}}
+2025-04-25 18:24:27,065 - xiaozhi - xiaozhi.py - recv_audio - line 145 - INFO - recv audio: sample_rate -> 24000, frame_duration -> 60, frame_num -> 1440
+2025-04-25 18:24:29,735 - xiaozhi - xiaozhi.py - StartListen - line 257 - INFO - send start listen message: {'session_id': '4dcb8272', 'type': 'listen', 'state': 'start', 'mode': 'manual'}
+2025-04-25 18:24:32,769 - xiaozhi - xiaozhi.py - EndListen - line 263 - INFO - send stop listen message: {'session_id': '4dcb8272', 'type': 'listen', 'state': 'stop'}
+2025-04-25 18:25:33,389 - xiaozhi - xiaozhi.py - on_message - line 181 - INFO - recv msg: {'type': 'goodbye', 'session_id': '4dcb8272'}

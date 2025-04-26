@@ -3,6 +3,8 @@
 import time
 from common import config
 
+is_recordable = True
+
 def setRecordable(value):
     """设置是否可以开始录制语音"""
     global is_recordable

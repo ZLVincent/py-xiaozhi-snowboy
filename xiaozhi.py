@@ -126,7 +126,7 @@ def send_audio(audio_stream=None):
                 # 打印音频数据
                 # print(f"Encoded data: {len(encoded_data)}")
                 # nonce插入data.size local_sequence_
-                local_sequence += 1
+                local_sequence = (local_sequence + 1) & 0xFFFFFFFF
                 new_nonce = nonce[0:4] + format(len(encoded_data), '04x') + nonce[8:24] + format(local_sequence, '08x')
                 # 加密数据，添加nonce
                 encrypt_encoded_data = aes_ctr_encrypt(bytes.fromhex(key), bytes.fromhex(new_nonce), bytes(encoded_data))

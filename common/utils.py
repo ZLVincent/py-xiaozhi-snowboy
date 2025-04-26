@@ -3,6 +3,7 @@
 import time
 from common import config
 
+do_not_bother = False
 is_recordable = True
 
 def setRecordable(value):

@@ -208,6 +208,7 @@ def on_message(client, userdata, message):
         logger.info(f"recv good bye msg")
         stopRun()
     elif msg['type'] == 'tts' and msg["state"] == 'stop':
+        StartListen()
         utils.setRecordable(True)
 
 def on_connect(client, userdata, flags, rs, pr):

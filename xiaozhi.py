@@ -18,8 +18,8 @@ import wave
 logger = logging.getLogger(__name__)
 
 OTA_VERSION_URL = 'https://api.tenclass.net/xiaozhi/ota/'
-#MAC_ADDR = 'cd:69:f9:9d:b9:ba'
-MAC_ADDR = 'cd:68:f8:8d:b8:ba'
+MAC_ADDR = 'cd:69:f9:9d:b9:ba'
+#MAC_ADDR = 'cd:68:f8:8d:b8:ba'
 # {"mqtt":{"endpoint":"post-cn-apg3xckag01.mqtt.aliyuncs.com","client_id":"GID_test@@@cc_ba_97_20_b4_bc",
 # "username":"Signature|LTAI5tF8J3CrdWmRiuTjxHbF|post-cn-apg3xckag01","password":"0mrkMFELXKyelhuYy2FpGDeCigU=",
 # "publish_topic":"device-server","subscribe_topic":"devices"},"firmware":{"version":"0.9.9","url":""}}
@@ -201,7 +201,7 @@ def on_message(client, userdata, message):
             recv_audio_thread.start()
         else:
             logger.info("recv_audio_thread is alive")
-        #StartListen()
+        StartListen()
     elif msg['type'] == 'goodbye' and udp_socket and msg['session_id'] == aes_opus_info['session_id']:
         logger.info(f"recv good bye msg")
         stopRun()

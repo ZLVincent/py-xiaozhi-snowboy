@@ -132,7 +132,6 @@ def send_audio(audio_stream=None):
                 encrypt_encoded_data = aes_ctr_encrypt(bytes.fromhex(key), bytes.fromhex(new_nonce), bytes(encoded_data))
                 data = bytes.fromhex(new_nonce) + encrypt_encoded_data
                 sent = udp_socket.sendto(data, (server_ip, server_port))
-                logger.info(sent)
             else:
                 logger.info("最后一块数据太小，丢弃或者缓存下次用")
         

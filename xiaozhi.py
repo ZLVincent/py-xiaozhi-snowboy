@@ -209,13 +209,21 @@ def on_message(client, userdata, message):
     elif msg['type'] == 'goodbye' and udp_socket and msg['session_id'] == aes_opus_info['session_id']:
         logger.info(f"recv good bye msg")
         stopRun()
+    elif msg['type'] == 'tts' and msg["state"] == 'stop':
+        utils.setRecordable(True)
 
 def on_connect(client, userdata, flags, rs, pr):
+    if rs == 0:
+        logger.info("✅ 成功连接到 MQTT 服务器")
+        # 连接成功后，自动订阅主题
+        #client.subscribe(self.subscribe_topic)
+        #logger.info(f"📥 已订阅主题：{self.subscribe_topic}")
+    else:
+        logger.info(f"❌ 连接失败，错误码：{rs}")
     # subscribe_topic = mqtt_info['subscribe_topic'].split("/")[0] + '/p2p/GID_test@@@' + MAC_ADDR.replace(':', '_')
     # logger.info(f"subscribe topic: {subscribe_topic}")
     # 订阅主题
     # client.subscribe(subscribe_topic)
-    logger.info("connect to mqtt server")
 
 def push_mqtt_msg(message):
     global mqtt_info, mqttc

@@ -5,12 +5,20 @@ from common import config
 
 do_not_bother = False
 is_recordable = True
+in_conversation = False
+
+def setInConversation(value):
+    global in_conversation
+    in_conversation = value
+
+def isInConversation():
+    global in_conversation
+    return in_conversation
 
 def setRecordable(value):
     """设置是否可以开始录制语音"""
     global is_recordable
     is_recordable = value
-
 
 def isRecordable():
     """是否可以开始录制语音"""

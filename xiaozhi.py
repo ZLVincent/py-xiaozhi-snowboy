@@ -304,4 +304,5 @@ def stopRun():
     mqttc.loop_stop()
     mqttc = None
     utils.setRecordable(True)
+    utils.setInConversation(False)
     logger.info("xiaozhi stoped")

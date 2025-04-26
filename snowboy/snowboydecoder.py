@@ -181,7 +181,6 @@ class HotwordDetector(object):
 
         logger.debug("detecting...")
 
-        state = "PASSIVE"
         while self._running is True:
             if interrupt_check():
                 logger.debug("detect voice break")
@@ -196,7 +195,7 @@ class HotwordDetector(object):
                 logger.warning("Error initializing streams or reading audio data")
 
             # small state machine to handle recording of phrase after keyword
-            if state == "PASSIVE":
+            if not utils.isInConversation():
                 if status > 0:  # key word found
                     self.recordedData = []
                     silentCount = 0
@@ -210,10 +209,10 @@ class HotwordDetector(object):
                         and status == 1
                         and utils.is_proper_time()
                     ):
-                        state = "ACTIVE"
+                        utils.setInConversation(True)
                     continue
 
-            elif state == "ACTIVE":
+            else:
                 stopRecording = False
                 if recordingCount > recording_timeout:
                     stopRecording = True
@@ -228,7 +227,6 @@ class HotwordDetector(object):
                 if stopRecording == True:
                     data = b"".join(self.recordedData)
                     audio_recorder_callback(audio_stream=data)
-                    state = "PASSIVE"
                     continue
 
                 recordingCount = recordingCount + 1

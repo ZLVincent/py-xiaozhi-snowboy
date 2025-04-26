@@ -122,7 +122,7 @@ def send_audio(audio_stream=None):
             chunk = audio_stream[i:i+BYTES_PER_FRAME]
             if len(chunk) == BYTES_PER_FRAME:  # 确保够一帧，不够可以丢掉或缓存
                 # 编码音频数据
-                encoded_data = encoder.encode(audio_stream, FRAME_SIZE)
+                encoded_data = encoder.encode(chunk, FRAME_SIZE)
                 # 打印音频数据
                 # print(f"Encoded data: {len(encoded_data)}")
                 # nonce插入data.size local_sequence_

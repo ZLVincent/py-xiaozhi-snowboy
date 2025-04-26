@@ -11,7 +11,7 @@ import pyaudio
 logger = logging.getLogger(__name__)
 
 class XiaoZhiAI(object):
-    def init(self):
+    def __init__(self):
         self.detector = None
         self._interrupted = False
 

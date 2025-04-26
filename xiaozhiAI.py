@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 class XiaoZhiAI(object):
     def init(self):
         self.detector = None
+        self._interrupted = False
 
     def startL(self):
         audio = pyaudio.PyAudio()

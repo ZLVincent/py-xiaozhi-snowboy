@@ -91,10 +91,9 @@ def get_ota_version():
                            "ip": "192.168.124.38", "mac": f"{MAC_ADDR}"}}
 
     response = requests.post(OTA_VERSION_URL, headers=header, data=json.dumps(post_data))
-    print('=========================')
+    logger.info('=========================')
     logger.info(response.text)
     logger.info(f"get version: {response}")
-    print()
     mqtt_info = response.json()['mqtt']
 
 def aes_ctr_encrypt(key, nonce, plaintext):
@@ -114,7 +113,7 @@ def send_audio(audio_stream=None):
     nonce = aes_opus_info['udp']['nonce']
     server_ip = aes_opus_info['udp']['server']
     server_port = aes_opus_info['udp']['port']
-    print(f"{server_ip} : {server_port}")
+    logger.info(f"{server_ip} : {server_port}")
     # 初始化Opus编码器
     encoder = opuslib.Encoder(16000, 1, opuslib.APPLICATION_AUDIO)
     try:
@@ -129,7 +128,7 @@ def send_audio(audio_stream=None):
         encrypt_encoded_data = aes_ctr_encrypt(bytes.fromhex(key), bytes.fromhex(new_nonce), bytes(encoded_data))
         data = bytes.fromhex(new_nonce) + encrypt_encoded_data
         sent = udp_socket.sendto(data, (server_ip, server_port))
-        print(sent)
+        logger.info(sent)
         EndListen()
     except Exception as e:
         logger.critical(f"send audio err: {e}")
@@ -142,7 +141,6 @@ def recv_audio():
     frame_duration = aes_opus_info['audio_params']['frame_duration']
     frame_num = int(frame_duration / (1000 / sample_rate))
     logger.info(f"recv audio: sample_rate -> {sample_rate}, frame_duration -> {frame_duration}, frame_num -> {frame_num}")
-    print(f"recv audio: sample_rate -> {sample_rate}, frame_duration -> {frame_duration}, frame_num -> {frame_num}")
     # 初始化Opus编码器
     decoder = opuslib.Decoder(sample_rate, 1)
     try:
@@ -150,7 +148,6 @@ def recv_audio():
         while not stop_event.is_set():
             data, server = udp_socket.recvfrom(4096)
             logger.info(f"Received from server {server}: {len(data)}")
-            print(f"Received from server {server}: {len(data)}")
             if len(data) == 0:
                 continue
             encrypt_encoded_data = data
@@ -178,11 +175,10 @@ def on_message(client, userdata, message):
     global aes_opus_info, udp_socket, tts_state, recv_audio_thread
     msg = json.loads(message.payload)
     logger.info(f"recv msg: {msg}")
-    print(f"recv msg: {msg}")
     if udp_socket:
-        print("udp_socket exit")
+        logger.info("udp_socket exit")
     if aes_opus_info:
-        print(aes_opus_info['session_id'])
+        logger.info(aes_opus_info['session_id'])
     if msg['type'] == 'hello':
         aes_opus_info = msg
         udp_socket.connect((msg['udp']['server'], msg['udp']['port']))
@@ -247,20 +243,17 @@ def sayHello():
                  "audio_params": {"format": "opus", "sample_rate": 16000, "channels": 1, "frame_duration": 60}}
     push_mqtt_msg(hello_msg)
     logger.info(f"send hello message: {hello_msg}")
-    print(f"send hello message: {hello_msg}")
 
 def StartListen():
     play_audio_file(DETECT_DING)
     msg = {"session_id": aes_opus_info['session_id'], "type": "listen", "state": "start", "mode": "manual"}
     push_mqtt_msg(msg)
     logger.info(f"send start listen message: {msg}")
-    print(f"send start listen message: {msg}")
 
 def EndListen():
     msg = {"session_id": aes_opus_info['session_id'], "type": "listen", "state": "stop"}
     push_mqtt_msg(msg)
     logger.info(f"send stop listen message: {msg}")
-    print(f"send stop listen message: {msg}")
 
 def run():
     global mqtt_info, mqttc, audio
@@ -276,10 +269,8 @@ def run():
     mqttc.on_message = on_message
     mqttc.connect(host=mqtt_info['endpoint'], port=8883)
     mqttc.loop_start()
-    print("111")
     # say hello
     sayHello()
-    print("333")
 
 def stopRun():
     # 通知线程停止
@@ -293,4 +284,3 @@ def stopRun():
     mqttc.disconnect()
     mqttc.loop_stop()
     logger.info("xiaozhi stoped")
-    print("xiaozhi stoped")

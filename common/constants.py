@@ -11,9 +11,8 @@ TEMP_PATH = os.path.join(APP_PATH, "temp")
 CONFIG_PATH = APP_PATH
 CUSTOM_CONFIG_NAME = "config.yml"
 DATA_PATH = os.path.join(APP_PATH, "static")
-TOP_DIR = os.path.dirname(os.path.abspath(__file__))
-DETECT_HI = os.path.join(TOP_DIR, "static/beep_hi.wav")
-DETECT_LO = os.path.join(TOP_DIR, "static/beep_lo.wav")
+DETECT_HI = os.path.join(APP_PATH, "static/beep_hi.wav")
+DETECT_LO = os.path.join(APP_PATH, "static/beep_lo.wav")
 
 def getConfigPath():
     """

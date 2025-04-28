@@ -11,4 +11,3 @@ recording_timeout: 15 # 录制的语音最大长度（秒）
 
 # MAC地址，用于小智AI区分不同客户端
 mac_address: 'cd:69:f9:9d:b9:ba'
-#mac_address: 'cd:68:f8:8d:b8:ba'

@@ -11,7 +11,7 @@ from common import logging, utils, constants
 
 logger = logging.getLogger("snowboy")
 
-RESOURCE_FILE = os.path.join(constants.TOP_DIR, "resources/common.res")
+RESOURCE_FILE = os.path.join(constants.TOP_DIR, "snowboy/resources/common.res")
 
 def py_error_handler(filename, line, function, err, fmt):
     pass

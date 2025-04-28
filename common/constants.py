@@ -1,7 +1,8 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import os
 
-# Wukong main directory
+# main directory
 APP_PATH = os.path.normpath(
     os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir)
 )
@@ -10,6 +11,9 @@ TEMP_PATH = os.path.join(APP_PATH, "temp")
 CONFIG_PATH = APP_PATH
 CUSTOM_CONFIG_NAME = "config.yml"
 DATA_PATH = os.path.join(APP_PATH, "static")
+TOP_DIR = os.path.dirname(os.path.abspath(__file__))
+DETECT_HI = os.path.join(TOP_DIR, "static/beep_hi.wav")
+DETECT_LO = os.path.join(TOP_DIR, "static/beep_lo.wav")
 
 def getConfigPath():
     """

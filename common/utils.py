@@ -1,6 +1,8 @@
-# -*- coding: utf-8 -*-
-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import time
+import wave
+import pyaudio
 from common import config
 
 do_not_bother = False
@@ -44,3 +46,25 @@ def is_proper_time():
         return current not in range(since, till)
     else:
         return not (current in range(since, 25) or current in range(-1, till))
+    
+def play_audio_file(fname):
+    """play a wave file
+    :param str fname: wave file name
+    :return: None
+    """
+    ding_wav = wave.open(fname, "rb")
+    ding_data = ding_wav.readframes(ding_wav.getnframes())
+    audio = pyaudio.PyAudio()
+    stream_out = audio.open(
+        format=audio.get_format_from_width(ding_wav.getsampwidth()),
+        channels=ding_wav.getnchannels(),
+        rate=ding_wav.getframerate(),
+        input=False,
+        output=True,
+    )
+    stream_out.start_stream()
+    stream_out.write(ding_data)
+    time.sleep(0.2)
+    stream_out.stop_stream()
+    stream_out.close()
+    audio.terminate()

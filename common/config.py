@@ -1,4 +1,5 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import yaml
 import logging
 import os
@@ -9,7 +10,6 @@ logger = logging.getLogger(__name__)
 _config = {}
 has_init = False
 
-
 def reload():
     """
     重新加载配置
@@ -17,10 +17,8 @@ def reload():
     logger.info("配置文件发生变更，重新加载配置文件")
     init()
 
-
 def init():
     global _config
-
     configFile = constants.getConfigPath()
     # Read config
     logger.debug("Trying to read config file: '%s'", configFile)
@@ -30,7 +28,6 @@ def init():
     except Exception as e:
         logger.error(f"配置文件 {configFile} 读取失败: {e}", stack_info=True)
         raise
-
 
 def get_path(items, default=None, warn=False):
     global _config
@@ -56,7 +53,6 @@ def get_path(items, default=None, warn=False):
             return default
     return curConfig
 
-
 def has_path(items):
     global _config
     curConfig = _config
@@ -71,7 +67,6 @@ def has_path(items):
             return False
     return True
 
-
 def has(item):
     """
     判断配置里是否包含某个配置项
@@ -80,7 +75,6 @@ def has(item):
     :returns: True: 包含; False: 不包含
     """
     return has_path(item)
-
 
 def get(item="", default=None, warn=False):
     """
@@ -111,7 +105,6 @@ def get(item="", default=None, warn=False):
             )
         return default
 
-
 def getConfig():
     """
     返回全部配置数据
@@ -120,13 +113,11 @@ def getConfig():
     """
     return _config
 
-
 def getText():
     if os.path.exists(constants.getConfigPath()):
         with open(constants.getConfigPath(), "r") as f:
             return f.read()
     return ""
-
 
 def dump(configStr):
     with open(constants.getConfigPath(), "w") as f:

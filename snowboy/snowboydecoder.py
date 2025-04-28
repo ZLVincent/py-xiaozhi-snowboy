@@ -1,20 +1,17 @@
-#!/usr/bin/env python
-
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 import collections
 import pyaudio
-
-from common import constants, logging, utils, config
-from . import snowboydetect
 import time
-import wave
 import os
 from ctypes import CFUNCTYPE, c_char_p, c_int, cdll
 from contextlib import contextmanager
+from . import snowboydetect
+from common import logging, utils, constants
 
 logger = logging.getLogger("snowboy")
-TOP_DIR = os.path.dirname(os.path.abspath(__file__))
 
-RESOURCE_FILE = os.path.join(TOP_DIR, "resources/common.res")
+RESOURCE_FILE = os.path.join(constants.TOP_DIR, "resources/common.res")
 
 def py_error_handler(filename, line, function, err, fmt):
     pass

@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import json
-import time
 import requests
 import paho.mqtt.client as mqtt
 import threading
@@ -11,15 +10,13 @@ import socket
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.backends import default_backend
 from os import urandom
-from common import logging, utils
+from common import logging, utils, config, constants
 import os
-import wave
 
 logger = logging.getLogger(__name__)
 
 OTA_VERSION_URL = 'https://api.tenclass.net/xiaozhi/ota/'
-MAC_ADDR = 'cd:69:f9:9d:b9:ba'
-#MAC_ADDR = 'cd:68:f8:8d:b8:ba'
+MAC_ADDR = config.get("MAC_ADDR")
 # {"mqtt":{"endpoint":"post-cn-apg3xckag01.mqtt.aliyuncs.com","client_id":"GID_test@@@cc_ba_97_20_b4_bc",
 # "username":"Signature|LTAI5tF8J3CrdWmRiuTjxHbF|post-cn-apg3xckag01","password":"0mrkMFELXKyelhuYy2FpGDeCigU=",
 # "publish_topic":"device-server","subscribe_topic":"devices"},"firmware":{"version":"0.9.9","url":""}}
@@ -61,9 +58,6 @@ recv_audio_thread = threading.Thread()
 # 创建停止标志
 stop_event = None
 mqttc = None
-
-TOP_DIR = os.path.dirname(os.path.abspath(__file__))
-DETECT_DING = os.path.join(TOP_DIR, "snowboy/resources/ding.wav")
 
 def get_ota_version():
     global mqtt_info
@@ -228,30 +222,6 @@ def push_mqtt_msg(message):
     global mqtt_info, mqttc
     mqttc.publish(mqtt_info['publish_topic'], json.dumps(message))
 
-def play_audio_file(fname=DETECT_DING):
-    """Simple callback function to play a wave file. By default it plays
-    a Ding sound.
-
-    :param str fname: wave file name
-    :return: None
-    """
-    ding_wav = wave.open(fname, "rb")
-    ding_data = ding_wav.readframes(ding_wav.getnframes())
-    audio = pyaudio.PyAudio()
-    stream_out = audio.open(
-        format=audio.get_format_from_width(ding_wav.getsampwidth()),
-        channels=ding_wav.getnchannels(),
-        rate=ding_wav.getframerate(),
-        input=False,
-        output=True,
-    )
-    stream_out.start_stream()
-    stream_out.write(ding_data)
-    time.sleep(0.2)
-    stream_out.stop_stream()
-    stream_out.close()
-    audio.terminate()
-
 def sayHello():
     # 发送hello消息,建立udp连接
     hello_msg = {"type": "hello", "version": 3, "transport": "udp",
@@ -260,7 +230,7 @@ def sayHello():
     logger.info(f"send hello message: {hello_msg}")
 
 def StartListen():
-    play_audio_file(DETECT_DING)
+    utils.play_audio_file(constants.DETECT_HI)
     msg = {"session_id": aes_opus_info['session_id'], "type": "listen", "state": "start", "mode": "manual"}
     push_mqtt_msg(msg)
     logger.info(f"send start listen message: {msg}")

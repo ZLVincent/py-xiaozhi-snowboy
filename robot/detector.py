@@ -1,6 +1,8 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 from common import constants, logging, utils, config
-from . import snowboydecoder
-import xiaozhi
+from snowboy import snowboydecoder
+from robot import xiaozhi
 
 logger = logging.getLogger(__name__)
 
@@ -8,12 +10,12 @@ detector = None
 
 def initDetector(XiaoZhiAI):
     """
-    初始化离线唤醒热词监听器，支持 snowboy 和 porcupine 两大引擎
+    初始化离线唤醒热词监听器
     """
     global detector
     logger.info("使用 snowboy 进行离线唤醒")
     detector and detector.terminate()
-    models = constants.getHotwordModel(config.get("hotword", "wukong.pmdl"))
+    models = constants.getHotwordModel(config.get("hotword", "snowboy.umdl"))
     detector = snowboydecoder.HotwordDetector(
         models, sensitivity=config.get("sensitivity", 0.5)
     )
@@ -40,8 +42,9 @@ def _detected_callback():
     utils.setRecordable(True)
 
 def _audio_recorder_callback(audio_stream=None):
+    logger.info("结束录音")
+    utils.play_audio_file(constants.DETECT_LO)
     if len(audio_stream) < (960 * 2):
         return
-    logger.info("结束录音")
     utils.setRecordable(False)
     xiaozhi.send_audio(audio_stream)

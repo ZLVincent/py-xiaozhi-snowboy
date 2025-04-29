@@ -3,7 +3,7 @@
 import importlib
 import pkgutil
 from common import logging, config, constants
-from . import AbstractPlugin
+from .AbstractPlugin import AbstractPlugin
 
 logger = logging.getLogger(__name__)
 

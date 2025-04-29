@@ -1,7 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import pkgutil
-import importlib
 from common import logging, config, constants
 from . import AbstractPlugin
 
@@ -21,20 +20,20 @@ class PluginEngine(object):
     def init_plugins(self):
         """
         动态加载技能插件
+
+        参数：
+        con -- 会话模块
         """
         locations = [constants.PLUGIN_PATH]
         logger.info(f"检查插件目录：{locations}")
 
         nameSet = set()
 
-        for finder, name, ispkg in pkgutil.iter_modules(locations):
+        for finder, name, ispkg in pkgutil.walk_packages(locations):
             try:
-                # 构造模块的完整路径
-                # 假设 plugins 是个包，比如 plugins.xxx
-                full_name = name
-
-                # 关键：使用 importlib 代替旧的 finder.load_module
-                mod = importlib.import_module(full_name)
+                logger.info(name)
+                loader = finder.find_module(name)
+                mod = loader.load_module(name)
             except Exception:
                 logger.warning(f"插件 {name} 加载出错，跳过", exc_info=True)
                 continue
@@ -43,16 +42,19 @@ class PluginEngine(object):
                 logger.debug(f"模块 {name} 非插件，跳过")
                 continue
 
+            # plugins run at query
             plugin = mod.Plugin()
 
             if plugin.SLUG == "AbstractPlugin":
                 plugin.SLUG = name
 
+            # check conflict
             if plugin.SLUG in nameSet:
                 logger.warning(f"插件 {name} SLUG({plugin.SLUG}) 重复，跳过")
                 continue
             nameSet.add(plugin.SLUG)
 
+            # whether a plugin is enabled
             if config.has(plugin.SLUG) and "enable" in config.get(plugin.SLUG):
                 if not config.get(plugin.SLUG)["enable"]:
                     logger.info(f"插件 {name} 已被禁用")
@@ -63,7 +65,9 @@ class PluginEngine(object):
                 self._plugins_query.append(plugin)
 
         def sort_priority(m):
-            return getattr(m, "PRIORITY", 0)
+            if hasattr(m, "PRIORITY"):
+                return m.PRIORITY
+            return 0
 
         self._plugins_query.sort(key=sort_priority, reverse=True)
 

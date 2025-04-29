@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 from common import logging
-from robot import detector, PluginEngine
+from robot import detector
+from robot.PluginEngine import PluginEngine
 import signal
 
 logger = logging.getLogger(__name__)

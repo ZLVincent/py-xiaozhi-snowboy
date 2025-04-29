@@ -59,6 +59,8 @@ recv_audio_thread = threading.Thread()
 stop_event = None
 mqttc = None
 
+PluginEngine = None
+
 def get_ota_version():
     global mqtt_info
     header = {
@@ -172,7 +174,7 @@ def recv_audio():
         spk.close()
 
 def on_message(client, userdata, message):
-    global aes_opus_info, udp_socket, tts_state, recv_audio_thread
+    global aes_opus_info, udp_socket, recv_audio_thread, PluginEngine
     msg = json.loads(message.payload)
     logger.info(f"recv msg: {msg}")
     # if udp_socket:
@@ -204,6 +206,8 @@ def on_message(client, userdata, message):
     elif msg['type'] == 'tts' and msg["state"] == 'stop':
         StartListen()
         utils.setRecordable(True)
+    elif msg['type'] == 'stt':
+        PluginEngine.query(msg['text'])
 
 def on_connect(client, userdata, flags, rs, pr):
     if rs == 0:
@@ -240,8 +244,9 @@ def EndListen():
     push_mqtt_msg(msg)
     logger.info(f"send stop listen message: {msg}")
 
-def run():
-    global mqtt_info, mqttc, audio, stop_event
+def run(pluginEngine):
+    global mqtt_info, mqttc, audio, stop_event, PluginEngine
+    PluginEngine = pluginEngine
     stop_event = threading.Event()
     audio = pyaudio.PyAudio()
     # 获取mqtt与版本信息

@@ -7,12 +7,14 @@ from robot import xiaozhi
 logger = logging.getLogger(__name__)
 
 detector = None
+PluginEngine = None
 
-def initDetector(XiaoZhiAI):
+def initDetector(XiaoZhiAI, pluginEngine):
     """
     初始化离线唤醒热词监听器
     """
-    global detector
+    global detector, PluginEngine
+    PluginEngine = pluginEngine
     logger.info("使用 snowboy 进行离线唤醒")
     detector and detector.terminate()
     models = constants.getHotwordModel(config.get("hotword", "snowboy.umdl"))
@@ -34,11 +36,12 @@ def initDetector(XiaoZhiAI):
         logger.critical(f"离线唤醒机制初始化失败：{e}", stack_info=True)
 
 def _detected_callback():
+    global PluginEngine
     if not utils.is_proper_time():
         logger.warning("勿扰模式开启中")
         return
     utils.setRecordable(False)
-    xiaozhi.run()
+    xiaozhi.run(PluginEngine)
     utils.setRecordable(True)
 
 def _audio_recorder_callback(audio_stream=None):

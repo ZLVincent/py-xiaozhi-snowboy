@@ -13,6 +13,12 @@ CUSTOM_CONFIG_NAME = "config.yml"
 DATA_PATH = os.path.join(APP_PATH, "static")
 DETECT_HI = os.path.join(APP_PATH, "static/beep_hi.wav")
 DETECT_LO = os.path.join(APP_PATH, "static/beep_lo.wav")
+DETECT_Ding = os.path.join(APP_PATH, "static/ding.wav")
+DETECT_Dong = os.path.join(APP_PATH, "static/dong.wav")
+DETECT_OFF = os.path.join(APP_PATH, "static/off.wav")
+DETECT_ON = os.path.join(APP_PATH, "static/on.wav")
+
+PLUGIN_PATH = os.path.join(APP_PATH, "plugins")
 
 def getConfigPath():
     """

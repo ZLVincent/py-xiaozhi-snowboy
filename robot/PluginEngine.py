@@ -7,7 +7,7 @@ from . import AbstractPlugin
 logger = logging.getLogger(__name__)
 
 class PluginEngine(object):
-    def __init__(self, conversation):
+    def __init__(self):
         """
         负责处理技能的匹配和响应
 
@@ -15,10 +15,9 @@ class PluginEngine(object):
         conversation -- 管理对话
         """
         self._plugins_query = []
-        self.conversation = conversation
-        self.init_plugins(self.conversation)
+        self.init_plugins()
 
-    def init_plugins(self, con):
+    def init_plugins(self):
         """
         动态加载技能插件
     
@@ -43,7 +42,7 @@ class PluginEngine(object):
                 continue
     
             # plugins run at query
-            plugin = mod.Plugin(con)
+            plugin = mod.Plugin()
     
             if plugin.SLUG == "AbstractPlugin":
                 plugin.SLUG = name
@@ -93,8 +92,6 @@ class PluginEngine(object):
                 continueHandle = plugin.handle(text)
             except Exception as e:
                 logger.critical(f"Failed to execute plugin: {e}", stack_info=True)
-                reply = f"抱歉，插件{plugin.SLUG}出故障了，晚点再试试吧~"
-                self.conversation.say(reply, plugin=plugin.SLUG)
             else:
                 logger.debug(
                     "Handling of phrase '%s' by " + "plugin '%s' completed",

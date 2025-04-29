@@ -11,7 +11,7 @@ class Plugin(AbstractPlugin):
 
     SLUG = 'reboot'
 
-    def handle(self, text, parsed):
+    def handle(self, text):
         logger.info('将要重新启动系统~')
         utils.play_audio_file(constants.DETECT_OFF)
         try:
@@ -21,5 +21,5 @@ class Plugin(AbstractPlugin):
             logger.error(e)
             utils.play_audio_file(constants.DETECT_Ding)
 
-    def isValid(self, text, parsed):
+    def isValid(self, text):
         return any(word in text for word in [u"重启", u"重新启动"])

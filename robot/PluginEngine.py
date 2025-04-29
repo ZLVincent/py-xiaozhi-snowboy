@@ -14,21 +14,22 @@ class PluginEngine(object):
         参数：
         conversation -- 管理对话
         """
+        logger.info(f"PluginEngine init")
         self._plugins_query = []
         self.init_plugins()
 
     def init_plugins(self):
         """
         动态加载技能插件
-    
+
         参数：
         con -- 会话模块
         """
         locations = [constants.PLUGIN_PATH]
         logger.info(f"检查插件目录：{locations}")
-    
+
         nameSet = set()
-    
+
         for finder, name, ispkg in pkgutil.walk_packages(locations):
             try:
                 loader = finder.find_module(name)
@@ -36,43 +37,43 @@ class PluginEngine(object):
             except Exception:
                 logger.warning(f"插件 {name} 加载出错，跳过", exc_info=True)
                 continue
-    
+
             if not hasattr(mod, "Plugin"):
                 logger.debug(f"模块 {name} 非插件，跳过")
                 continue
-    
+
             # plugins run at query
             plugin = mod.Plugin()
-    
+
             if plugin.SLUG == "AbstractPlugin":
                 plugin.SLUG = name
-    
+
             # check conflict
             if plugin.SLUG in nameSet:
                 logger.warning(f"插件 {name} SLUG({plugin.SLUG}) 重复，跳过")
                 continue
             nameSet.add(plugin.SLUG)
-    
+
             # whether a plugin is enabled
             if config.has(plugin.SLUG) and "enable" in config.get(plugin.SLUG):
                 if not config.get(plugin.SLUG)["enable"]:
                     logger.info(f"插件 {name} 已被禁用")
                     continue
-    
+
             if issubclass(mod.Plugin, AbstractPlugin):
                 logger.info(f"插件 {name} 加载成功 ")
                 self._plugins_query.append(plugin)
-    
+
         def sort_priority(m):
             if hasattr(m, "PRIORITY"):
                 return m.PRIORITY
             return 0
-    
+
         self._plugins_query.sort(key=sort_priority, reverse=True)
 
     def isValid(self, plugin, text):
         return plugin.isValid(text)
-        
+
     def query(self, text):
         """
         query 模块

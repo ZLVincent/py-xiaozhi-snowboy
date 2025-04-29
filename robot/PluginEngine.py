@@ -24,6 +24,7 @@ class PluginEngine(object):
         """
         locations = [constants.PLUGIN_PATH]
         logger.info(f"检查插件目录：{locations}")
+        print(f"检查插件目录：{locations}")
         
         nameSet = set()
         
@@ -37,10 +38,12 @@ class PluginEngine(object):
                 mod = importlib.import_module(full_name)
             except Exception:
                 logger.warning(f"插件 {name} 加载出错，跳过", exc_info=True)
+                print(f"插件 {name} 加载出错，跳过", exc_info=True)
                 continue
         
             if not hasattr(mod, "Plugin"):
                 logger.debug(f"模块 {name} 非插件，跳过")
+                print(f"模块 {name} 非插件，跳过")
                 continue
         
             plugin = mod.Plugin()
@@ -50,16 +53,19 @@ class PluginEngine(object):
         
             if plugin.SLUG in nameSet:
                 logger.warning(f"插件 {name} SLUG({plugin.SLUG}) 重复，跳过")
+                print(f"插件 {name} SLUG({plugin.SLUG}) 重复，跳过")
                 continue
             nameSet.add(plugin.SLUG)
         
             if config.has(plugin.SLUG) and "enable" in config.get(plugin.SLUG):
                 if not config.get(plugin.SLUG)["enable"]:
                     logger.info(f"插件 {name} 已被禁用")
+                    print(f"插件 {name} 已被禁用")
                     continue
         
             if issubclass(mod.Plugin, AbstractPlugin):
                 logger.info(f"插件 {name} 加载成功 ")
+                print(f"插件 {name} 加载成功 ")
                 self._plugins_query.append(plugin)
         
         def sort_priority(m):
@@ -83,6 +89,7 @@ class PluginEngine(object):
                 continue
 
             logger.info(f"'{text}' 命中技能 {plugin.SLUG}")
+            print(f"'{text}' 命中技能 {plugin.SLUG}")
 
             continueHandle = False
             try:
@@ -100,4 +107,5 @@ class PluginEngine(object):
                     return True
 
         logger.debug(f"No plugin was able to handle phrase {text} ")
+        print(f"No plugin was able to handle phrase {text} ")
         return False

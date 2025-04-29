@@ -3,7 +3,7 @@
 import time
 import subprocess
 from common import logging, utils, constants
-from robot import AbstractPlugin
+from robot.AbstractPlugin import AbstractPlugin
 
 logger = logging.getLogger(__name__)   
 

@@ -19,7 +19,9 @@ class XiaoZhiAI(object):
         return self._interrupted
 
     def run(self):
+        logger.info("111")
         pluginEngine = PluginEngine()
+        logger.info("222")
         # capture SIGINT signal, e.g., Ctrl+C
         signal.signal(signal.SIGINT, self._signal_handler)
         try:
